@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard Ferme</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:url('/static/bg.jpg') no-repeat center center/cover;
+background-size:cover;
+min-height:100vh;
+color:white;
+}
+
+/* ================= MOBILE MENU ================= */
+
+.menu-toggle{
+display:none;
+position:fixed;
+top:15px;
+left:15px;
+background:#4CAF50;
+border:none;
+color:white;
+padding:12px;
+font-size:22px;
+border-radius:10px;
+z-index:1000;
+cursor:pointer;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+width:240px;
+height:100vh;
+background:rgba(0,0,0,0.72);
+backdrop-filter:blur(12px);
+padding:20px;
+position:fixed;
+left:0;
+top:0;
+border-right:4px solid #4CAF50;
+transition:0.3s;
+z-index:999;
+overflow:auto;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:40px;
+}
+
+.logo-box img{
+width:65px;
+height:65px;
+border-radius:50%;
+background:white;
+padding:5px;
+border:3px solid #4CAF50;
+}
+
+.logo-text{
+font-size:34px;
+font-weight:bold;
+color:#4CAF50;
+}
+
+.menu a{
+display:block;
+padding:15px;
+margin-bottom:14px;
+text-decoration:none;
+color:white;
+border-radius:12px;
+font-size:18px;
+transition:0.3s;
+}
+
+.menu a:hover{
+background:#4CAF50;
+transform:translateX(5px);
+}
+
+.active{
+background:#4CAF50;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+margin-left:260px;
+padding:25px;
+transition:0.3s;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+background:rgba(255,255,255,0.14);
+backdrop-filter:blur(10px);
+padding:30px;
+border-radius:24px;
+margin-bottom:25px;
+border-left:6px solid #4CAF50;
+box-shadow:0 6px 20px rgba(0,0,0,0.3);
+}
+
+.header h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.header p{
+font-size:18px;
+}
+
+/* ================= ALERT ================= */
+
+.alert{
+background:#ff9800;
+padding:18px;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+margin-bottom:25px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* ================= CARDS ================= */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.14);
+backdrop-filter:blur(10px);
+padding:28px;
+border-radius:24px;
+text-align:center;
+border-left:6px solid #4CAF50;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card h2{
+font-size:22px;
+margin-bottom:15px;
+}
+
+.card p{
+font-size:38px;
+font-weight:bold;
+color:#4CAF50;
+}
+
+/* ================= BOX ================= */
+
+.box{
+background:rgba(255,255,255,0.14);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:24px;
+margin-bottom:30px;
+border-left:6px solid #4CAF50;
+overflow:auto;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.box h2{
+margin-bottom:20px;
+font-size:30px;
+}
+
+/* ================= TABLE ================= */
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:700px;
+}
+
+th{
+background:#4CAF50;
+padding:16px;
+font-size:16px;
+}
+
+td{
+padding:14px;
+text-align:center;
+background:rgba(255,255,255,0.08);
+}
+
+tr:hover{
+background:rgba(255,255,255,0.12);
+}
+
+/* ================= COLORS ================= */
+
+.green{
+color:#4CAF50;
+font-weight:bold;
+}
+
+.red{
+color:#ff5252;
+font-weight:bold;
+}
+
+.orange{
+color:#ff9800;
+font-weight:bold;
+}
+
+/* ================= NOTIFICATIONS ================= */
+
+.notification{
+background:rgba(255,152,0,0.18);
+padding:16px;
+border-radius:14px;
+margin-bottom:15px;
+border-left:5px solid orange;
+font-size:17px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:900px){
+
+.sidebar{
+left:-260px;
+}
+
+.sidebar.active{
+left:0;
+}
+
+.menu-toggle{
+display:block;
+}
+
+.main{
+margin-left:0;
+padding:15px;
+padding-top:80px;
+}
+
+.header h1{
+font-size:30px;
+}
+
+.cards{
+grid-template-columns:1fr;
+}
+
+.card p{
+font-size:32px;
+}
+
+.box{
+padding:18px;
+}
+
+.box h2{
+font-size:24px;
+}
+
+table{
+min-width:650px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= MOBILE BUTTON ================= -->
+
+<button class="menu-toggle" onclick="toggleMenu()">
+☰
+</button>
+
+<!-- ================= SIDEBAR ================= -->
+
+<div class="sidebar" id="sidebar">
+
+<div class="logo-box">
+
+<img src="/static/logo.png">
+
+<div class="logo-text">
+Ferme
+</div>
+
+</div>
+
+<div class="menu">
+
+<a href="/dashboard" class="active">
+🏠 Dashboard
+</a>
+
+<a href="/vache">
+🐄 Vaches
+</a>
+
+<a href="/production">
+🥛 Production
+</a>
+
+<a href="/depense">
+💰 Dépenses
+</a>
+
+<a href="/logout">
+🚪 Logout
+</a>
+
+</div>
+
+</div>
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+<!-- ================= HEADER ================= -->
+
+<div class="header">
+
+<h1>
+📊 Dashboard Ferme
+</h1>
+
+<p>
+Gestion intelligente et moderne de votre ferme
+</p>
+
+</div>
+
+<!-- ================= ALERT ================= -->
+
+{% if vaches_gestantes|length > 0 %}
+
+<div class="alert">
+
+⚠️ Attention :
+Des vaches approchent du vêlage
+
+</div>
+
+{% endif %}
+
+<!-- ================= CARDS ================= -->
+
+<div class="cards">
+
+<div class="card">
+
+<h2>
+🐄 Total Vaches
+</h2>
+
+<p>
+{{ total_vaches }}
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+🥛 Revenus Production
+</h2>
+
+<p>
+{{ total_lait }} DH
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+💰 Dépenses Totales
+</h2>
+
+<p>
+{{ total_depense }} DH
+</p>
+
+</div>
+
+</div>
+
+<!-- ================= STATISTIQUES ================= -->
+
+<div class="box">
+
+<h2>
+📈 Statistiques des Vaches
+</h2>
+
+<table>
+
+<tr>
+
+<th>Vache</th>
+<th>Production</th>
+<th>Dépenses</th>
+<th>Bénéfice</th>
+
+</tr>
+
+{% for v in statistiques_vaches %}
+
+<tr>
+
+<td>
+{{ v.nom }}
+</td>
+
+<td class="green">
+{{ v.total_production }} DH
+</td>
+
+<td class="red">
+{{ v.total_depense }} DH
+</td>
+
+<td class="green">
+{{ v.total_production - v.total_depense }} DH
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<!-- ================= VELAGE ================= -->
+
+<div class="box">
+
+<h2>
+🐄 Vaches proches du vêlage
+</h2>
+
+<table>
+
+<tr>
+
+<th>Nom</th>
+<th>Race</th>
+<th>Date vêlage</th>
+<th>État</th>
+
+</tr>
+
+{% for v in vaches_gestantes %}
+
+<tr>
+
+<td>{{ v.nom }}</td>
+
+<td>{{ v.race }}</td>
+
+<td class="orange">
+{{ v.date_velage_prevue }}
+</td>
+
+<td class="orange">
+⚠️ Approche vêlage
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<!-- ================= NOTIFICATIONS ================= -->
+
+<div class="box">
+
+<h2>
+🔔 Notifications
+</h2>
+
+{% for v in vaches_gestantes %}
+
+<div class="notification">
+
+⚠️ La vache
+<b>{{ v.nom }}</b>
+
+approche du vêlage prévu le
+
+<b>{{ v.date_velage_prevue }}</b>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+<!-- ================= SCRIPT ================= -->
+
+<script>
+
+function toggleMenu(){
+
+document
+.getElementById("sidebar")
+.classList
+.toggle("active");
+
+}
+
+</script>
+
+</body>
+</html>
+

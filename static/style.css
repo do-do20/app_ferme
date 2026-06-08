@@ -1,0 +1,31 @@
+body{
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding:50px;
+}
+input,button{
+    padding:10px;
+    margin:10px;
+}
+button{
+    background:#22c55e;
+    color:white;
+}
+
+nav{
+background:#1e293b;
+padding:15px;
+display:flex;
+gap:20px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+nav a:hover{
+color:#38bdf8;
+}

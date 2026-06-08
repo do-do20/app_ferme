@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Production - Ferme</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:url('/static/bg.jpg') no-repeat center center/cover;
+background-size:cover;
+min-height:100vh;
+color:white;
+}
+
+/* ================= MOBILE MENU ================= */
+
+.menu-toggle{
+display:none;
+position:fixed;
+top:15px;
+left:15px;
+background:#4CAF50;
+border:none;
+color:white;
+padding:12px;
+font-size:22px;
+border-radius:10px;
+z-index:1000;
+cursor:pointer;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+width:240px;
+height:100vh;
+background:rgba(0,0,0,0.72);
+backdrop-filter:blur(12px);
+padding:20px;
+position:fixed;
+left:0;
+top:0;
+border-right:4px solid #4CAF50;
+transition:0.3s;
+z-index:999;
+overflow:auto;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:40px;
+}
+
+.logo-box img{
+width:65px;
+height:65px;
+border-radius:50%;
+background:white;
+padding:5px;
+border:3px solid #4CAF50;
+}
+
+.logo-text{
+font-size:34px;
+font-weight:bold;
+color:#4CAF50;
+}
+
+.menu a{
+display:block;
+padding:15px;
+margin-bottom:14px;
+text-decoration:none;
+color:white;
+border-radius:12px;
+font-size:18px;
+transition:0.3s;
+}
+
+.menu a:hover{
+background:#4CAF50;
+transform:translateX(5px);
+}
+
+.active{
+background:#4CAF50;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+margin-left:260px;
+padding:25px;
+transition:0.3s;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+background:rgba(255,255,255,0.14);
+backdrop-filter:blur(10px);
+padding:30px;
+border-radius:24px;
+margin-bottom:25px;
+border-left:6px solid #4CAF50;
+box-shadow:0 6px 20px rgba(0,0,0,0.3);
+}
+
+.header h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+/* ================= CARDS ================= */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.14);
+backdrop-filter:blur(10px);
+padding:28px;
+border-radius:24px;
+text-align:center;
+border-left:6px solid #4CAF50;
+}
+
+.card h2{
+font-size:22px;
+margin-bottom:15px;
+}
+
+.card p{
+font-size:38px;
+font-weight:bold;
+color:#4CAF50;
+}
+
+/* ================= FORM ================= */
+
+.form-box{
+background:rgba(255,255,255,0.14);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:24px;
+margin-bottom:30px;
+border-left:6px solid #4CAF50;
+}
+
+.form-box h2{
+margin-bottom:20px;
+font-size:28px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+input,select{
+padding:14px;
+border:none;
+border-radius:12px;
+outline:none;
+font-size:16px;
+}
+
+button{
+background:#4CAF50;
+color:white;
+border:none;
+padding:14px;
+border-radius:12px;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+font-weight:bold;
+}
+
+button:hover{
+background:#2e7d32;
+}
+
+/* ================= TABLE ================= */
+
+.table-box{
+background:rgba(255,255,255,0.14);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:24px;
+border-left:6px solid #4CAF50;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:900px;
+}
+
+th{
+background:#4CAF50;
+padding:16px;
+font-size:16px;
+}
+
+td{
+padding:14px;
+text-align:center;
+background:rgba(255,255,255,0.08);
+}
+
+tr:hover{
+background:rgba(255,255,255,0.12);
+}
+
+.delete-btn{
+background:#f44336;
+padding:10px 14px;
+border:none;
+border-radius:10px;
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
+
+.edit-btn{
+background:#2196F3;
+padding:10px 14px;
+border:none;
+border-radius:10px;
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:900px){
+
+.sidebar{
+left:-260px;
+}
+
+.sidebar.active{
+left:0;
+}
+
+.menu-toggle{
+display:block;
+}
+
+.main{
+margin-left:0;
+padding:15px;
+padding-top:80px;
+}
+
+.header h1{
+font-size:30px;
+}
+
+.cards{
+grid-template-columns:1fr;
+}
+
+.card p{
+font-size:30px;
+}
+
+table{
+min-width:900px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= MOBILE BUTTON ================= -->
+
+<button class="menu-toggle" onclick="toggleMenu()">
+☰
+</button>
+
+<!-- ================= SIDEBAR ================= -->
+
+<div class="sidebar" id="sidebar">
+
+<div class="logo-box">
+
+<img src="/static/logo.png">
+
+<div class="logo-text">
+Ferme
+</div>
+
+</div>
+
+<div class="menu">
+
+<a href="/dashboard">
+🏠 Dashboard
+</a>
+
+<a href="/vache">
+🐄 Vaches
+</a>
+
+<a href="/production" class="active">
+🥛 Production
+</a>
+
+<a href="/depense">
+💰 Dépenses
+</a>
+
+<a href="/logout">
+🚪 Logout
+</a>
+
+</div>
+
+</div>
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+<div class="header">
+
+<h1>
+🥛 Gestion Production
+</h1>
+
+<p>
+Gestion moderne de la production du lait
+</p>
+
+</div>
+
+<!-- ================= CARDS ================= -->
+
+<div class="cards">
+
+<div class="card">
+
+<h2>
+🥛 Total Production
+</h2>
+
+<p id="totalProduction">
+0 DH
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+📋 Nombre Productions
+</h2>
+
+<p id="countProduction">
+0
+</p>
+
+</div>
+
+</div>
+
+<!-- ================= FORM ================= -->
+
+<div class="form-box">
+
+<h2>
+➕ Ajouter Production
+</h2>
+
+<div class="form-grid">
+
+<select id="id_vache"></select>
+
+<input type="date" id="date">
+
+<input type="number" id="quantite" placeholder="Quantité litre">
+
+<input type="number" id="prix" placeholder="Prix litre">
+
+<select id="type">
+
+<option value="Matin">
+Matin
+</option>
+
+<option value="Soir">
+Soir
+</option>
+
+</select>
+
+<button onclick="addProduction()">
+Ajouter
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= TABLE ================= -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Vache</th>
+<th>Date</th>
+<th>Quantité</th>
+<th>Prix</th>
+<th>Total</th>
+<th>Type</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="table"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+/* ================= MENU ================= */
+
+function toggleMenu(){
+
+document
+.getElementById("sidebar")
+.classList
+.toggle("active");
+
+}
+
+/* ================= LOAD VACHES ================= */
+
+function loadVaches(){
+
+fetch("/get_vaches")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let select =
+document.getElementById("id_vache");
+
+select.innerHTML="";
+
+data.forEach(v=>{
+
+select.innerHTML += `
+
+<option value="${v.id_vache}">
+${v.nom}
+</option>
+
+`;
+
+});
+
+});
+
+}
+
+/* ================= LOAD PRODUCTION ================= */
+
+function loadProduction(){
+
+fetch("/get_production")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let table =
+document.getElementById("table");
+
+table.innerHTML="";
+
+let total=0;
+
+document.getElementById("countProduction").innerHTML =
+data.length;
+
+data.forEach(p=>{
+
+let totalPrix =
+p.quantite * p.prix;
+
+total += totalPrix;
+
+table.innerHTML += `
+
+<tr>
+
+<td>${p.nom}</td>
+
+<td>${p.date}</td>
+
+<td>${p.quantite} L</td>
+
+<td>${p.prix} DH</td>
+
+<td>${totalPrix} DH</td>
+
+<td>${p.type}</td>
+
+<td>
+
+<button
+class="edit-btn"
+onclick="editProduction(
+${p.id_production},
+'${p.quantite}',
+'${p.prix}'
+)">
+
+✏ Modifier
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteProduction(${p.id_production})">
+
+🗑 Supprimer
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("totalProduction").innerHTML =
+total + " DH";
+
+});
+
+}
+
+/* ================= ADD ================= */
+
+function addProduction(){
+
+fetch("/add_production",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+date:
+document.getElementById("date").value,
+
+quantite:
+document.getElementById("quantite").value,
+
+prix:
+document.getElementById("prix").value,
+
+id_vache:
+document.getElementById("id_vache").value,
+
+type:
+document.getElementById("type").value
+
+})
+
+})
+
+.then(res=>res.json())
+
+.then(data=>{
+
+if(data.success){
+
+alert("✅ Production ajoutée");
+
+loadProduction();
+
+}
+
+});
+
+}
+
+/* ================= DELETE ================= */
+
+function deleteProduction(id){
+
+if(confirm("Supprimer cette production ?")){
+
+fetch("/delete_production/"+id)
+
+.then(res=>res.json())
+
+.then(data=>{
+
+loadProduction();
+
+});
+
+}
+
+}
+
+/* ================= EDIT ================= */
+
+function editProduction(id,quantite,prix){
+
+let newQuantite =
+prompt("Nouvelle quantité :", quantite);
+
+if(newQuantite == null){
+return;
+}
+
+let newPrix =
+prompt("Nouveau prix :", prix);
+
+if(newPrix == null){
+return;
+}
+
+fetch("/update_production/"+id,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+quantite:newQuantite,
+prix:newPrix
+
+})
+
+})
+
+.then(res=>res.json())
+
+.then(data=>{
+
+if(data.success){
+
+loadProduction();
+
+}
+
+});
+
+}
+
+/* ================= START ================= */
+
+loadVaches();
+
+loadProduction();
+
+</script>
+
+</body>
+</html>
+
